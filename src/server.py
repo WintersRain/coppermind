@@ -3,15 +3,18 @@ import chromadb
 from uuid import uuid4
 from datetime import datetime, timezone
 from pathlib import Path
+import os
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
+
+PROJECT = os.environ.get("COPPERMIND_PROJECT", "default")
 
 mcp = FastMCP("coppermind")
 
 client = chromadb.PersistentClient(path=str(DATA_DIR))
 collection = client.get_or_create_collection(
-    name="brain",
+    name=f"brain_{PROJECT}",
     metadata={"hnsw:space": "cosine"},
 )
 
@@ -162,7 +165,7 @@ def brain_stats() -> str:
             if tag:
                 all_tags[tag] = all_tags.get(tag, 0) + 1
 
-    output = f"Total thoughts: {count}\n\nCategories:\n"
+    output = f"Project: {PROJECT}\nTotal thoughts: {count}\n\nCategories:\n"
     for cat, cnt in sorted(categories.items(), key=lambda x: -x[1]):
         output += f"  {cat}: {cnt}\n"
 

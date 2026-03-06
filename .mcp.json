@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "coppermind": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "uv", "run", "--directory", "E:/VS Code Projects/coppermind", "python", "src/server.py"],
+      "env": {
+        "COPPERMIND_PROJECT": "coppermind"
+      }
+    }
+  }
+}
